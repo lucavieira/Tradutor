@@ -1,5 +1,6 @@
 from selenium import webdriver
 from time import sleep
+import csv
 
 
 class Tradutor:
@@ -9,7 +10,9 @@ class Tradutor:
         self.chrome = webdriver.Chrome(executable_path=r"C:\Users\User\Documents\chrome_driver\chromedriver.exe", options=options)
 
     def traduzir(self, idioma_origem='pt', idioma_destino='en', texto_original=''):
-        self.url_tradutora = f'https://translate.google.com.br/?hl=pt-BR&sl={idioma_origem}&tl={idioma_destino}&text={texto_original}&op=translate'
+        idiomas = self.localizar_idiomas(idioma_origem, idioma_destino)
+        sleep(1.5)
+        self.url_tradutora = f'https://translate.google.com.br/?hl=pt-BR&sl={idiomas[0]}&tl={idiomas[1]}&text={texto_original}&op=translate'
         sleep(2)
         self.chrome.get(self.url_tradutora)
         sleep(2)
@@ -22,9 +25,9 @@ class Tradutor:
             return f'Texto em {idioma_origem} > {texto_original}\n' \
                    f'Texto em {idioma_destino} > {traducao.text}'
 
-    def detectar(self, idioma_destino='pt', texto=''):
+    def detectar(self, texto=''):
         sleep(2)
-        self.url_tradutora = f'https://translate.google.com.br/?hl=pt-BR&sl=auto&tl={idioma_destino}&text={texto}&op=translate'
+        self.url_tradutora = f'https://translate.google.com.br/?hl=pt-BR&tab=TT&sl=auto&tl=pt&text={texto}&op=translate'
         sleep(2)
         self.chrome.get(self.url_tradutora)
         sleep(2)
@@ -32,7 +35,21 @@ class Tradutor:
         sleep(1)
         return idioma_detectado.text
 
+    def idiomas(self):
+        with open('idiomas.csv') as idiomas:
+            return [idioma for idioma in csv.DictReader(idiomas)]
 
-traducao = Tradutor()
-print(traducao.traduzir('pt', 'ja', 'Obrigado'))
-print(traducao.detectar(texto='ありがとう '))
+    def localizar_idiomas(self, idioma_origem, idioma_destino):
+        lista_idiomas = self.idiomas()
+        for idioma in lista_idiomas:
+            if idioma['Idioma'] == idioma_origem:
+                abreviacao_origem = idioma['Abreviacao']
+            if idioma['Idioma'] == idioma_destino:
+                abreviacao_destino = idioma['Abreviacao']
+        return abreviacao_origem, abreviacao_destino
+
+
+
+#print(traducao.localizar_idiomas('Bielorusso', 'Inglês'))
+#print(traducao.traduzir('Português', 'Inglês', 'Obrigado'))
+#print(traducao.detectar(texto='ありがとう '))
