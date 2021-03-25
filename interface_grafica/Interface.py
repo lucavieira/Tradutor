@@ -1,10 +1,13 @@
 from tkinter import *
 from funcoes.tradutor import Tradutor
+from funcoes.voice import falar
 
 
 class Interface:
     def __init__(self, master=None):
         self.fontePadrao = ('Arial', '10')
+
+        self.icone = PhotoImage(file='C:/Users/User/PycharmProjects/Tradutor/icones/icon_audio.png')
 
         self.primeirocontainer = Frame(master)
         self.primeirocontainer['pady'] = 10
@@ -56,7 +59,7 @@ class Interface:
         self.botao_detectar['command'] = self.mostrar_labels_deteccao
         self.botao_detectar.pack(side=LEFT)
 
-        # Traduzir
+        # Traduzir e Detectar
         self.tituloLabel = Label(self.terceirocontainer, text='', font=('Arial', '15', 'bold'))
 
         self.idioma_origem_label = Label(self.quartocontainer, text='De: ', font=self.fontePadrao)
@@ -74,10 +77,13 @@ class Interface:
         self.botao['width'] = 15
         self.botao['command'] = self.traducao
 
-        self.resposta = Label(self.setimocontainer, text='', font=self.fontePadrao)
+        self.resposta = Label(self.setimocontainer, text='')
+        self.resposta['font'] = ('Calibri', '12', 'bold')
         self.resposta.pack()
 
-        # Detectar
+        self.botao_falar = Button(self.oitavocontainer)
+        self.botao_falar['image'] = self.icone
+        self.botao_falar['command'] = self.falar
 
     def mostrar_labels_traducao(self):
         self.tituloLabel['text'] = 'Traduzir'
@@ -92,6 +98,8 @@ class Interface:
         self.texto.pack()
         self.campo_texto.pack()
 
+        self.botao_falar.pack()
+
         self.botao['text'] = 'Traduzir'
         self.botao.pack()
 
@@ -105,6 +113,10 @@ class Interface:
         self.idioma_destino_label.pack_forget()
         self.idioma_destino_campo.pack_forget()
 
+        self.botao_falar.pack_forget()
+
+        self.resposta.pack_forget()
+
         self.texto.pack()
         self.campo_texto.pack()
 
@@ -117,6 +129,7 @@ class Interface:
         idioma_origem = str(self.idioma_origem_campo.get())
         idioma_destino = str(self.idioma_destino_campo.get())
         texto = str(self.campo_texto.get())
+        global traducao
         traducao = tradutor.traduzir(idioma_origem, idioma_destino, texto)
         self.resposta['text'] = f'Tradução: {traducao}'
 
@@ -125,3 +138,6 @@ class Interface:
         texto = str(self.campo_texto.get())
         detectado = tradutor.detectar(texto)
         self.resposta['text'] = f'O texto está em {detectado}'
+
+    def falar(self):
+        falar(traducao)

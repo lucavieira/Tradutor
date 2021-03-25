@@ -35,7 +35,8 @@ class Tradutor:
         return idioma_detectado.text
 
     def idiomas(self):
-        with open('../idiomas.csv') as idiomas:
+        arquivo_idiomas = 'C:/Users/User/PycharmProjects/Tradutor/idiomas.csv'
+        with open(arquivo_idiomas, encoding='utf-8') as idiomas:
             return [idioma for idioma in csv.DictReader(idiomas)]
 
     def localizar_idiomas(self, idioma_origem, idioma_destino):
@@ -46,9 +47,3 @@ class Tradutor:
             if idioma['Idioma'] == idioma_destino:
                 abreviacao_destino = idioma['Abreviacao']
         return abreviacao_origem, abreviacao_destino
-
-
-
-#print(traducao.localizar_idiomas('Bielorusso', 'Inglês'))
-#print(traducao.traduzir('Português', 'Inglês', 'Obrigado'))
-#print(traducao.detectar(texto='ありがとう '))
