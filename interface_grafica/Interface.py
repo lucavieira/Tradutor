@@ -1,5 +1,5 @@
 from tkinter import *
-from tradutor import Tradutor
+from funcoes.tradutor import Tradutor
 
 
 class Interface:

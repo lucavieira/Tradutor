@@ -35,7 +35,7 @@ class Tradutor:
         return idioma_detectado.text
 
     def idiomas(self):
-        with open('idiomas.csv') as idiomas:
+        with open('../idiomas.csv') as idiomas:
             return [idioma for idioma in csv.DictReader(idiomas)]
 
     def localizar_idiomas(self, idioma_origem, idioma_destino):

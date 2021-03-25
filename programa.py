@@ -1,5 +1,5 @@
 from tkinter import *
-from Interface import Interface
+from interface_grafica.Interface import Interface
 
 root = Tk()
 Interface(root)
