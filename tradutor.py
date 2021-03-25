@@ -19,11 +19,10 @@ class Tradutor:
         try:
             traducao = self.chrome.find_element_by_xpath('//span[@jsname="W297wb"]')
         except:
-            return 'Teste'
+            return 'erro'
         else:
             sleep(2)
-            return f'Texto em {idioma_origem} > {texto_original}\n' \
-                   f'Texto em {idioma_destino} > {traducao.text}'
+            return traducao.text
 
     def detectar(self, texto=''):
         sleep(2)
