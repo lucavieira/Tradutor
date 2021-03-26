@@ -98,6 +98,8 @@ class Interface:
         self.texto.pack()
         self.campo_texto.pack()
 
+        self.resposta['text'] = ''
+
         self.botao_falar.pack()
 
         self.botao['text'] = 'Traduzir'
@@ -115,7 +117,7 @@ class Interface:
 
         self.botao_falar.pack_forget()
 
-        self.resposta.pack_forget()
+        self.resposta['text'] = ''
 
         self.texto.pack()
         self.campo_texto.pack()
